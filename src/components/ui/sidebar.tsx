@@ -33,7 +33,7 @@ const SideBar = () => {
           fontSize: "1.5rem",
           textAlign: "center",
           fontWeight: "bold",
-          marginBottom: "2rem",
+          margin: "2rem",
         }}
       >
         Dashbord

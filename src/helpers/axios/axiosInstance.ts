@@ -27,8 +27,8 @@ axiosInstance.interceptors.request.use(
 axiosInstance.interceptors.response.use(
   function (response): any {
     const modifiedResponse: ResponseSuccessType = {
-      data: response?.data?.data,
-      meta: response?.data?.meta,
+      data: response?.data,
+      meta: response?.data,
     };
     return modifiedResponse;
   },
