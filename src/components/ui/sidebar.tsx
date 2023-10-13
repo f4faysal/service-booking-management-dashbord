@@ -2,15 +2,14 @@
 import { Layout, Menu } from "antd";
 import { useState } from "react";
 
-import { USER_ROLE } from "@/constants/role";
 import { sidebarItems } from "@/constants/sidebaritems";
+import { getUserInfo } from "@/services/auth.service";
 
 const { Sider } = Layout;
 
 const SideBar = () => {
   const [collapsed, setCollapsed] = useState(false);
-  // const { role } = getUserInfo() as any;
-  const role = USER_ROLE.ADMIN;
+  const { role } = getUserInfo() as any;
 
   return (
     <Sider

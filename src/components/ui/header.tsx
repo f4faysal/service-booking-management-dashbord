@@ -1,15 +1,13 @@
-import type { MenuProps } from "antd";
-import { Avatar, Button, Dropdown, Layout, Row, Space } from "antd";
-import { useRouter } from "next/navigation";
-
 import { authKey } from "@/constants/storageKey";
-import { removeUserInfo } from "@/services/auth.service";
+import { getUserInfo, removeUserInfo } from "@/services/auth.service";
 import { UserOutlined } from "@ant-design/icons";
-
+import { Avatar, Button, Dropdown, Layout, MenuProps, Row, Space } from "antd";
+import { useRouter } from "next/navigation";
 const { Header: AntHeader } = Layout;
 
 const Header = () => {
   const router = useRouter();
+
   const logOut = () => {
     removeUserInfo(authKey);
     router.push("/login");
@@ -17,7 +15,7 @@ const Header = () => {
 
   const items: MenuProps["items"] = [
     {
-      key: "1",
+      key: "0",
       label: (
         <Button onClick={logOut} type="text" danger>
           Logout
@@ -25,28 +23,33 @@ const Header = () => {
       ),
     },
   ];
-
+  const { role } = getUserInfo() as any;
   return (
     <AntHeader
       style={{
-        backgroundColor: "white",
-        boxShadow: "0 0 10px rgba(0,0,0,0.1)",
-        zIndex: 1,
-        width: "100%",
-        padding: "0 20px",
+        background: "#fff",
       }}
     >
       <Row
-        justify={"end"}
-        align={"middle"}
+        justify="end"
+        align="middle"
         style={{
           height: "100%",
         }}
       >
-        <Dropdown menu={{ items }} placement="bottomLeft" arrow>
-          <Space wrap size={16}>
-            <Avatar size="large" icon={<UserOutlined />} />
-          </Space>
+        <p
+          style={{
+            margin: "0px 5px",
+          }}
+        >
+          {role}
+        </p>
+        <Dropdown menu={{ items }}>
+          <a>
+            <Space wrap size={16}>
+              <Avatar size="large" icon={<UserOutlined />} />
+            </Space>
+          </a>
         </Dropdown>
       </Row>
     </AntHeader>

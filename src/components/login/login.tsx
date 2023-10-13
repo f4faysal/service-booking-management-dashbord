@@ -7,8 +7,8 @@ import { SubmitHandler } from "react-hook-form";
 import Form from "@/components/forms/form";
 import FormInput from "@/components/forms/formInput";
 import { useUserLoginMutation } from "@/redux/api/authApi";
-import loginImage from "../../assets/Fingerprint-cuate.png";
 import { storeUserInfo } from "@/services/auth.service";
+import loginImage from "../../assets/Fingerprint-cuate.png";
 
 type FormValues = {
   id: string;
@@ -26,7 +26,7 @@ const LoginPage = () => {
       console.log(res);
       // // const { accessToken } = res.data;
       if (res?.accessToken) {
-        router.push("/profile");
+        router.push("/dashboard");
         message.success("User Login Success");
       }
       storeUserInfo({ accessToken: res?.accessToken });

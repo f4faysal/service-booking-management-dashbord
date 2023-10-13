@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import Contents from "@/components/ui/contents";
 import SideBar from "@/components/ui/sidebar";
 import { isLoggedIn } from "@/services/auth.service";
+import Loading from "../loading";
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
@@ -22,13 +23,13 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   }, [router, isLoading, userLoggedIn]);
 
   if (!isLoading) {
-    return <p>Loading...............</p>;
+    return <Loading />;
   }
 
   return (
     <Layout hasSider>
       <SideBar />
-      <Contents>{children};</Contents>
+      <Contents>{children}</Contents>
     </Layout>
   );
 };

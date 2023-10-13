@@ -1,13 +1,10 @@
 "use client";
 import { Layout } from "antd";
-
 import Header from "./header";
-import UMBreadcrumb from "./umBreadcrumb";
 
 const { Content } = Layout;
 
 const Contents = ({ children }: { children: React.ReactNode }) => {
-  const base = "admin";
   return (
     <Content
       style={{
@@ -17,19 +14,13 @@ const Contents = ({ children }: { children: React.ReactNode }) => {
     >
       <Header />
 
-      <UMBreadcrumb
-        items={[
-          {
-            lable: `${base}`,
-            path: `${base}`,
-          },
-          {
-            lable: `student`,
-            path: `${base}/student`,
-          },
-        ]}
-      />
-      {children}
+      <div
+        style={{
+          padding: "10px",
+        }}
+      >
+        {children}
+      </div>
     </Content>
   );
 };
