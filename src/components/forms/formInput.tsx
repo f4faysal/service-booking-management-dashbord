@@ -1,32 +1,49 @@
 "use client";
+
+// import { getErrorMessageByPropertyName } from "@/utils/schema-validator";
 import { Input } from "antd";
 import { Controller, useFormContext } from "react-hook-form";
-
 interface IInput {
   name: string;
   type?: string;
-  id?: string;
-  size?: "large" | "middle" | "small";
+  size?: "large" | "small";
   value?: string | string[] | undefined;
+  id?: string;
   placeholder?: string;
-  validation?: string;
+  validation?: object;
   label?: string;
+  required?: boolean;
 }
 
 const FormInput = ({
   name,
   type,
-  size,
+  size = "large",
   value,
   id,
   placeholder,
   validation,
   label,
+  required,
 }: IInput) => {
-  const { control } = useFormContext();
+  const {
+    control,
+    formState: { errors },
+  } = useFormContext();
+
+  // const errorMessage = getErrorMessageByPropertyName(errors, name);
 
   return (
     <>
+      {required ? (
+        <span
+          style={{
+            color: "red",
+          }}
+        >
+          *
+        </span>
+      ) : null}
       {label ? label : null}
       <Controller
         control={control}
@@ -34,23 +51,25 @@ const FormInput = ({
         render={({ field }) =>
           type === "password" ? (
             <Input.Password
-              {...field}
               type={type}
               size={size}
               placeholder={placeholder}
+              {...field}
               value={value ? value : field.value}
             />
           ) : (
             <Input
-              {...field}
               type={type}
               size={size}
               placeholder={placeholder}
+              {...field}
+              style={{ width: "100%" }}
               value={value ? value : field.value}
             />
           )
         }
       />
+      {/* <small style={{ color: "red" }}>{errorMessage}</small> */}
     </>
   );
 };

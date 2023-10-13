@@ -3,11 +3,11 @@ import Link from "next/link";
 
 import { HomeOutlined } from "@ant-design/icons";
 
-const UMBreadcrumb = ({
+const SMBreadcrumb = ({
   items,
 }: {
   items: {
-    lable: string;
+    label: string;
     path?: string;
   }[];
 }) => {
@@ -22,9 +22,9 @@ const UMBreadcrumb = ({
     ...items.map((item) => {
       return {
         title: item.path ? (
-          <Link href={item.path}>{item.lable}</Link>
+          <Link href={item.path}>{item.label}</Link>
         ) : (
-          <samp>{item.lable}</samp>
+          <samp>{item.label}</samp>
         ),
       };
     }),
@@ -32,4 +32,4 @@ const UMBreadcrumb = ({
   return <Breadcrumb items={breadCrumbItem} />;
 };
 
-export default UMBreadcrumb;
+export default SMBreadcrumb;
