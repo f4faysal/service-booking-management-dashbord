@@ -1,5 +1,6 @@
 "use client";
 
+import SMBreadcrumb from "@/components/ui/Breadcrumb";
 import SBTable from "@/components/ui/SBTable";
 import ActionBar from "@/components/ui/actionBar";
 import { useUsersListQuery } from "@/redux/api/user";
@@ -140,6 +141,14 @@ const AdminPage = () => {
   };
   return (
     <div>
+      <SMBreadcrumb
+        items={[
+          {
+            label: "Manage Admin",
+          },
+        ]}
+      />
+
       <ActionBar title="Manage Admin">
         <Input
           type="text"
@@ -154,7 +163,7 @@ const AdminPage = () => {
           }}
         />
         <div>
-          <Link href="/super_admin/department/create">
+          <Link href="/super_admin/admin/create">
             <Button type="primary">Create</Button>
           </Link>
           {(!!sortBy || !!sortOrder || searchTerm) && (
