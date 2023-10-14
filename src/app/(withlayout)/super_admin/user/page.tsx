@@ -3,22 +3,22 @@
 import SMBreadcrumb from "@/components/ui/Breadcrumb";
 import SBTable from "@/components/ui/SBTable";
 import ActionBar from "@/components/ui/actionBar";
-import { useUsersListQuery } from "@/redux/api/user";
+import { useDeleteProfileMutation, useUsersListQuery } from "@/redux/api/user";
 import { useDebounced } from "@/redux/hooks";
 import { getUserInfo } from "@/services/auth.service";
 import {
   DeleteOutlined,
-  EditOutlined,
   ReloadOutlined,
   UserAddOutlined,
 } from "@ant-design/icons";
 import { Avatar, Button, Input, message } from "antd";
 import dayjs from "dayjs";
-import Link from "next/link";
 import { useState } from "react";
 
 const AdminPage = () => {
   const { role } = getUserInfo() as any;
+
+  const [deleteProfile] = useDeleteProfileMutation();
 
   const query: Record<string, any> = {};
 
@@ -60,7 +60,11 @@ const AdminPage = () => {
   const deleteHandler = async (id: { id: string }) => {
     message.loading("Deleting department...");
     try {
-      message.success("Department deleted successfully");
+      const res = await deleteProfile(id).unwrap();
+      if (res?.success) {
+        message.success("Department deleted successfully");
+      }
+      console.log(res);
     } catch (err: any) {
       message.error(err.message);
     }
@@ -110,13 +114,13 @@ const AdminPage = () => {
               width: "150px",
             }}
           >
-            <Link href={`/super_admin/user/edit/${data.id}`}>
+            {/* <Link href={`/super_admin/user/edit/${data.id}`}>
               <Button onClick={() => console.log(data)} type="primary">
                 <EditOutlined />
               </Button>
-            </Link>
+            </Link> */}
 
-            <Button onClick={() => console.log(data.role)} danger>
+            <Button onClick={() => deleteHandler(data?.id)} danger>
               <DeleteOutlined />
             </Button>
             {/* <Button onClick={() => console.log(data)}>
@@ -156,7 +160,7 @@ const AdminPage = () => {
         ]}
       />
 
-      <ActionBar title="Manage Admin">
+      <ActionBar title="Manage User">
         <Input
           type="text"
           size="large"
@@ -170,9 +174,9 @@ const AdminPage = () => {
           }}
         />
         <div>
-          <Link href="/super_admin/admin/create">
+          {/* <Link href="/super_admin/admin/create">
             <Button type="primary">Create</Button>
-          </Link>
+          </Link> */}
           {(!!sortBy || !!sortOrder || searchTerm) && (
             <Button
               onClick={resetFilter}

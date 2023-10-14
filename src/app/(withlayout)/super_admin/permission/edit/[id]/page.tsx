@@ -19,7 +19,7 @@ const EditAdminRole = ({ params }: IDPorps) => {
   const [updateRoleBySuperAdmin] = useUpdateRoleBySuperAdminMutation();
 
   const { data, refetch } = useUserQuery(id);
-  const role = data?.data?.role;
+  const role = data?.data?.role as string;
   const onSubmit = async (values: { title: string }) => {
     message.loading("Updating role...");
     try {
@@ -28,7 +28,6 @@ const EditAdminRole = ({ params }: IDPorps) => {
         refetch();
         message.success("Department updated successfully");
       }
-      console.log(values);
     } catch (err: any) {
       console.error(err.message);
       message.error(err.message);
@@ -41,7 +40,7 @@ const EditAdminRole = ({ params }: IDPorps) => {
     <div>
       <SMBreadcrumb
         items={[
-          { label: "Manage Admin", path: "/user" },
+          { label: "Permission", path: "/super_admin/permission" },
           { label: "Edit Admin Role" },
         ]}
       />
