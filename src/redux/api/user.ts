@@ -1,3 +1,4 @@
+import { IMeta } from "@/types/common.js";
 import { tagTypes } from "../tag-types.ts";
 import { baseApi } from "./baseApi";
 
@@ -47,6 +48,13 @@ const userApi = baseApi.injectEndpoints({
         method: "GET",
         params,
       }),
+      transformResponse: (response: any, meta: IMeta) => {
+        return {
+          userlist: response?.data,
+          meta: response.meta,
+        };
+      },
+
       providesTags: [tagTypes.user],
     }),
 
@@ -61,4 +69,11 @@ const userApi = baseApi.injectEndpoints({
   }),
 });
 
-export const { useProfileQuery, useUpdateProfileMutation } = userApi;
+export const {
+  useProfileQuery,
+  useUpdateProfileMutation,
+  useUsersListQuery,
+  useUserQuery,
+  useDeleteProfileMutation,
+  useUpdateRoleBySuperAdminMutation,
+} = userApi;
