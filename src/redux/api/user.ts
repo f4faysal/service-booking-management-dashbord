@@ -34,7 +34,7 @@ const userApi = baseApi.injectEndpoints({
     //super admin role update
     updateRoleBySuperAdmin: build.mutation({
       query: (data) => ({
-        url: `/superadmin/${USER_URL}/${data.id}`,
+        url: `/superadmin${USER_URL}/${data.id}`,
         method: "PATCH",
         data: data.body,
       }),

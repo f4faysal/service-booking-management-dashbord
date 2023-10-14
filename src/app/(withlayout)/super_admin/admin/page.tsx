@@ -33,6 +33,7 @@ const AdminPage = () => {
   query["sortBy"] = sortBy;
   query["sortOrder"] = sortOrder;
   query["search"] = searchTerm;
+  query["role"] = "admin";
 
   const debouncedTerm = useDebounced({
     searchQuery: searchTerm,
