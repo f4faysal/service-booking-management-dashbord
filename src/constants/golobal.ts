@@ -5,3 +5,32 @@ export const roleOptions = role.map((role: string) => {
     value: role,
   };
 });
+
+export const location = [
+  "Mirpur",
+  "Uttara",
+  "Gulshan",
+  "Banani",
+  "Dhanmondi",
+  "Mohammadpur",
+  "Motijheel",
+  "Khilgaon",
+  "Shyamoli",
+  "Farmgate",
+  "Mohakhali",
+  "Tejgaon",
+  "Rampura",
+  "Badda",
+  "Malibagh",
+  "Jatrabari",
+  "Demra",
+  "Kadamtali",
+  "Keraniganj",
+];
+
+export const locationOption = location.map((location: string) => {
+  return {
+    label: location,
+    value: location,
+  };
+});

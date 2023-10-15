@@ -56,12 +56,12 @@ const categorieApi = baseApi.injectEndpoints({
     //     method: "GET",
     //     params,
     //   }),
-    //   transformResponse: (response: any, meta: IMeta) => {
-    //     return {
-    //       userlist: response?.data,
-    //       meta: response.meta,
-    //     };
-    //   },
+    // transformResponse: (response: any, meta: IMeta) => {
+    //   return {
+    //     userlist: response?.data,
+    //     meta: response.meta,
+    //   };
+    // },
     //   providesTags: [tagTypes.user],
     // }),
   }),
