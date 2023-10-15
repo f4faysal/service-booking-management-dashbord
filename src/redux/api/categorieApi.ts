@@ -21,6 +21,17 @@ const categorieApi = baseApi.injectEndpoints({
       }),
       providesTags: [tagTypes.categorie],
     }),
+
+    // categorie create
+    createCategorie: build.mutation({
+      query: (body) => ({
+        url: `${CATEGORIE_URL}/create`,
+        method: "POST",
+        data: body,
+      }),
+      invalidatesTags: [tagTypes.categorie],
+    }),
+
     // categorie update
     updateCategorie: build.mutation({
       query: (paylod) => ({
@@ -61,4 +72,5 @@ export const {
   useCategorieQuery,
   useDeleteCategorieMutation,
   useUpdateCategorieMutation,
+  useCreateCategorieMutation,
 } = categorieApi;

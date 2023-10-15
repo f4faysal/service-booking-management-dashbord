@@ -51,6 +51,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ setImageUrl, imageUrl }) => {
 
           return (
             <Button
+              style={{ width: "100%" }}
               // disabled={disabled}
               // disabled={true}
               onClick={onClick}

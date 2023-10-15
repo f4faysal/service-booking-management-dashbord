@@ -3,7 +3,10 @@
 import SMBreadcrumb from "@/components/ui/Breadcrumb";
 import SBTable from "@/components/ui/SBTable";
 import ActionBar from "@/components/ui/actionBar";
-import { useCategoriesQuery } from "@/redux/api/categorieApi";
+import {
+  useCategoriesQuery,
+  useDeleteCategorieMutation,
+} from "@/redux/api/categorieApi";
 import { useDebounced } from "@/redux/hooks";
 import { getUserInfo } from "@/services/auth.service";
 import {
@@ -18,6 +21,8 @@ import { useState } from "react";
 
 const CategoriesPage = () => {
   const { role } = getUserInfo() as any;
+
+  const [deleteCategorie] = useDeleteCategorieMutation();
 
   const query: Record<string, any> = {};
 
@@ -50,8 +55,8 @@ const CategoriesPage = () => {
   // const meta = data?.meta;
 
   const deleteHandler = async (id: { id: string }) => {
-    console.log(id);
-
+    const res = await deleteCategorie(id).unwrap();
+    console.log(res);
     message.loading("Deleting department...");
     try {
       message.success("Department deleted successfully");
@@ -65,7 +70,7 @@ const CategoriesPage = () => {
       title: "Picture",
       render: function (data: any) {
         // return <img src={data?.profilePicture} alt="profile" width="50px" height="50px" />
-        return <Avatar src={data?.imageLink} />;
+        return <Avatar shape="square" size={50} src={data?.imageLink} />;
       },
     },
     {
@@ -92,7 +97,7 @@ const CategoriesPage = () => {
               width: "150px",
             }}
           >
-            <Link href={`/super_admin/department/edit/${data._id}`}>
+            <Link href={`/${role}/categories/edit/${data.id}`}>
               <Button onClick={() => console.log(data)} type="primary">
                 <EditOutlined />
               </Button>
@@ -132,11 +137,9 @@ const CategoriesPage = () => {
       <SMBreadcrumb
         items={[
           {
-            label: "Services Management",
-            path: "/admin/categories",
-          },
-          {
             label: "Manage Catagory",
+
+            path: "/admin/categories",
           },
         ]}
       />
@@ -155,7 +158,7 @@ const CategoriesPage = () => {
           }}
         />
         <div>
-          <Link href="/super_admin/admin/create">
+          <Link href={`/${role}/categories/create`}>
             <Button type="primary">Create</Button>
           </Link>
           {(!!sortBy || !!sortOrder || searchTerm) && (
