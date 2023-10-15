@@ -1,4 +1,5 @@
 "use client";
+import Loading from "@/app/loading";
 import Form from "@/components/forms/form";
 import FormSelectField from "@/components/forms/formSelectField";
 import SMBreadcrumb from "@/components/ui/Breadcrumb";
@@ -18,14 +19,13 @@ const EditAdminRole = ({ params }: IDPorps) => {
 
   const [updateRoleBySuperAdmin] = useUpdateRoleBySuperAdminMutation();
 
-  const { data, refetch } = useUserQuery(id);
+  const { data, isLoading } = useUserQuery(id);
   const role = data?.data?.role as string;
   const onSubmit = async (values: { title: string }) => {
     message.loading("Updating role...");
     try {
       const res = await updateRoleBySuperAdmin({ id, body: values }).unwrap();
       if (res?.success) {
-        refetch();
         message.success("Department updated successfully");
       }
     } catch (err: any) {
@@ -35,6 +35,8 @@ const EditAdminRole = ({ params }: IDPorps) => {
   };
 
   const defaultValues = { role: role };
+
+  if (isLoading) return <Loading />;
 
   return (
     <div>
