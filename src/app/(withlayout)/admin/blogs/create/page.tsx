@@ -3,12 +3,9 @@
 import FormTextArea from "@/components/forms/FormTextArea.tsx";
 import Form from "@/components/forms/form";
 import FormInput from "@/components/forms/formInput";
-import FormSelectField from "@/components/forms/formSelectField";
-import ServiceCategoreField from "@/components/forms/service-catagory";
 import SMBreadcrumb from "@/components/ui/Breadcrumb";
 import ImageUpload from "@/components/ui/image-upload";
-import { locationOption } from "@/constants/golobal";
-import { useCreateServicesMutation } from "@/redux/api/serviceApi";
+import { useCreateBlogMutation } from "@/redux/api/blogApi";
 import { getUserInfo } from "@/services/auth.service";
 import { Avatar, Button, Col, Row, message } from "antd";
 import { useState } from "react";
@@ -19,13 +16,14 @@ const CreateServicePage = () => {
     "https://res.cloudinary.com/dhvuyehnq/image/upload/v1697354272/gcu3mnulmato2odnqqvp.png"
   );
 
-  const [createServices] = useCreateServicesMutation();
+  // const [createServices] = useCreateServicesMutation();
+  const [createBlog] = useCreateBlogMutation();
 
   const onSubmit = async (data: any) => {
     message.loading("Adding Service...");
     try {
-      const serviceData = { imageLink: imageUrl, ...data };
-      const res = await createServices(serviceData).unwrap();
+      const blogData = { imageLink: imageUrl, ...data };
+      const res = await createBlog(blogData).unwrap();
       console.log(res);
       if (res?.success) {
         setImageUrl(
@@ -43,63 +41,25 @@ const CreateServicePage = () => {
       <SMBreadcrumb
         items={[
           {
-            label: "Manage Services",
-            path: `/${role}/services`,
+            label: "Manage Blogs",
+            path: `/${role}/blogs`,
           },
           {
-            label: "Create services",
+            label: "Create Blog",
           },
         ]}
       />
 
-      <h1>Create Services</h1>
+      <h1>Create Blog</h1>
       <Form submitHandler={onSubmit}>
         <Row gutter={{ xs: 24, xl: 8, lg: 8, md: 24 }}>
           <Col span={8} style={{ margin: "10px 0" }}>
             <FormInput
               name="title"
-              label="Service Title"
+              label="Blog Title"
               type="text"
-              placeholder="Service Title"
+              placeholder="Blog Title"
               size="large"
-            />
-          </Col>
-        </Row>
-
-        <Row gutter={{ xs: 24, xl: 8, lg: 8, md: 24 }}>
-          <Col span={8} style={{ margin: "10px 0" }}>
-            <FormInput
-              name="price"
-              label="Service Price"
-              type="text"
-              placeholder="Service Price"
-              size="large"
-            />
-          </Col>
-        </Row>
-        <Row gutter={{ xs: 24, xl: 8, lg: 8, md: 24 }}>
-          <Col span={8} style={{ margin: "10px 0" }}>
-            <FormInput
-              name="tax"
-              label="Service Tax %"
-              type="text"
-              placeholder="Service Tax = price - (price * tax / 100)"
-              size="large"
-            />
-          </Col>
-        </Row>
-        <Row gutter={{ xs: 24, xl: 8, lg: 8, md: 24 }}>
-          <Col span={8} style={{ margin: "10px 0" }}>
-            <ServiceCategoreField label="Service Category" name="categoryId" />
-          </Col>
-        </Row>
-        <Row gutter={{ xs: 24, xl: 8, lg: 8, md: 24 }}>
-          <Col span={8} style={{ margin: "10px 0" }}>
-            <FormSelectField
-              name="location"
-              label="Service Location"
-              options={locationOption}
-              placeholder="Select location"
             />
           </Col>
         </Row>
@@ -107,9 +67,9 @@ const CreateServicePage = () => {
         <Row gutter={{ xs: 24, xl: 8, lg: 8, md: 24 }}>
           <Col span={8} style={{ margin: "10px 0" }}>
             <FormTextArea
-              name="description"
-              label="Service Description"
-              placeholder="Service Description"
+              name="content"
+              label="Blog Content"
+              placeholder="Blog Content"
             />
           </Col>
         </Row>

@@ -3,8 +3,10 @@
 import SMBreadcrumb from "@/components/ui/Breadcrumb";
 import SBTable from "@/components/ui/SBTable";
 import ActionBar from "@/components/ui/actionBar";
-import { useDeleteCategorieMutation } from "@/redux/api/categorieApi";
-import { useServicessQuery } from "@/redux/api/serviceApi";
+import {
+  useDeleteServicesMutation,
+  useServicessQuery,
+} from "@/redux/api/serviceApi";
 import { useDebounced } from "@/redux/hooks";
 import { getUserInfo } from "@/services/auth.service";
 import {
@@ -20,8 +22,7 @@ import { useState } from "react";
 const ServicesPage = () => {
   const { role } = getUserInfo() as any;
 
-  const [deleteCategorie] = useDeleteCategorieMutation();
-
+  const [deleteServices] = useDeleteServicesMutation();
   const query: Record<string, any> = {};
 
   const [sige, setSige] = useState<number>(10);
@@ -35,7 +36,6 @@ const ServicesPage = () => {
   query["sortBy"] = sortBy;
   query["sortOrder"] = sortOrder;
   query["search"] = searchTerm;
-  query["role"] = "admin";
 
   const debouncedTerm = useDebounced({
     searchQuery: searchTerm,
@@ -43,21 +43,21 @@ const ServicesPage = () => {
   });
 
   if (!!debouncedTerm) {
-    query["searchTerm"] = debouncedTerm;
-    console.log(debouncedTerm);
+    query["search"] = debouncedTerm;
   }
 
-  const { data, isLoading } = useServicessQuery({ ...query });
+  const { data, isLoading, refetch } = useServicessQuery({ ...query });
 
   const services = data?.services;
   const meta = data?.meta;
 
   const deleteHandler = async (id: { id: string }) => {
-    const res = await deleteCategorie(id).unwrap();
-    console.log(res);
     message.loading("Deleting department...");
     try {
-      message.success("Department deleted successfully");
+      const res = await deleteServices(id).unwrap();
+      if (res?.success) {
+        message.success("Department deleted successfully");
+      }
     } catch (err: any) {
       message.error(err.message);
     }
@@ -93,10 +93,12 @@ const ServicesPage = () => {
     {
       title: "Tax",
       dataIndex: "tax",
+      sorter: true,
     },
     {
       title: "Price",
       dataIndex: "price",
+      sorter: true,
     },
     {
       title: "Created At",

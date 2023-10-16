@@ -4,45 +4,34 @@ import Loading from "@/app/loading";
 import FormTextArea from "@/components/forms/FormTextArea.tsx";
 import Form from "@/components/forms/form";
 import FormInput from "@/components/forms/formInput";
-import FormSelectField from "@/components/forms/formSelectField";
-import ServiceCategoreField from "@/components/forms/service-catagory";
 import SMBreadcrumb from "@/components/ui/Breadcrumb";
 import ImageUpload from "@/components/ui/image-upload";
-import { locationOption } from "@/constants/golobal";
-import {
-  useServicesQuery,
-  useUpdateServicesMutation,
-} from "@/redux/api/serviceApi";
+import { useBlogQuery, useUpdateBlogMutation } from "@/redux/api/blogApi";
 import { getUserInfo } from "@/services/auth.service";
 import { Avatar, Button, Col, Row, message } from "antd";
 import { useState } from "react";
 
-const EditServicePage = ({ params }: any) => {
+const EditBlogsPage = ({ params }: any) => {
   const id = params.id;
 
   const { role } = getUserInfo() as any;
-  const [imageUrl, setImageUrl] = useState(
-    "https://res.cloudinary.com/dhvuyehnq/image/upload/v1697354272/gcu3mnulmato2odnqqvp.png"
-  );
 
-  const { data, isLoading, refetch } = useServicesQuery(id);
+  const { data, isLoading, refetch } = useBlogQuery(id);
+  const blogs = data?.data;
 
-  const service = data?.data;
+  const [imageUrl, setImageUrl] = useState(blogs?.imageLink);
 
-  const [updateServices] = useUpdateServicesMutation();
+  const [updateBlog] = useUpdateBlogMutation();
 
   const onSubmit = async (data: any) => {
     message.loading("Adding Service...");
     try {
       const serviceData = { imageLink: imageUrl, ...data };
-      console.log(serviceData);
-      const res = await updateServices({ body: serviceData, id }).unwrap();
+      const res = await updateBlog({ body: serviceData, id }).unwrap();
       console.log(res);
       if (res?.success) {
-        setImageUrl(
-          "https://res.cloudinary.com/dhvuyehnq/image/upload/v1697354272/gcu3mnulmato2odnqqvp.png"
-        );
-        message.success("Service added successfully");
+        setImageUrl(imageUrl);
+        message.success("Service Updeting successfully");
         refetch();
       }
     } catch (err: any) {
@@ -51,12 +40,8 @@ const EditServicePage = ({ params }: any) => {
   };
 
   const defaultValues = {
-    title: service?.title,
-    price: service?.price,
-    tax: service?.tax,
-    location: service?.location,
-    description: service?.location,
-    imageLink: service?.imageLink,
+    title: blogs?.title,
+    content: blogs?.content,
   };
   if (isLoading) <Loading />;
 
@@ -65,63 +50,26 @@ const EditServicePage = ({ params }: any) => {
       <SMBreadcrumb
         items={[
           {
-            label: "Manage Services",
-            path: `/${role}/services`,
+            label: "Manage Blogs",
+            path: `/${role}/blogs`,
           },
           {
-            label: "Create services",
+            label: "Update Blog",
           },
         ]}
       />
 
-      <h1>Create Services</h1>
+      <h1>Update Blog</h1>
+
       <Form submitHandler={onSubmit} defaultValues={defaultValues}>
         <Row gutter={{ xs: 24, xl: 8, lg: 8, md: 24 }}>
           <Col span={8} style={{ margin: "10px 0" }}>
             <FormInput
               name="title"
-              label="Service Title"
+              label="Blog Title"
               type="text"
-              placeholder="Service Title"
+              placeholder="Blog Title"
               size="large"
-            />
-          </Col>
-        </Row>
-
-        <Row gutter={{ xs: 24, xl: 8, lg: 8, md: 24 }}>
-          <Col span={8} style={{ margin: "10px 0" }}>
-            <FormInput
-              name="price"
-              label="Service Price"
-              type="text"
-              placeholder="Service Price"
-              size="large"
-            />
-          </Col>
-        </Row>
-        <Row gutter={{ xs: 24, xl: 8, lg: 8, md: 24 }}>
-          <Col span={8} style={{ margin: "10px 0" }}>
-            <FormInput
-              name="tax"
-              label="Service Tax %"
-              type="text"
-              placeholder="Service Tax = price - (price * tax / 100)"
-              size="large"
-            />
-          </Col>
-        </Row>
-        <Row gutter={{ xs: 24, xl: 8, lg: 8, md: 24 }}>
-          <Col span={8} style={{ margin: "10px 0" }}>
-            <ServiceCategoreField label="Service Category" name="categoryId" />
-          </Col>
-        </Row>
-        <Row gutter={{ xs: 24, xl: 8, lg: 8, md: 24 }}>
-          <Col span={8} style={{ margin: "10px 0" }}>
-            <FormSelectField
-              name="location"
-              label="Service Location"
-              options={locationOption}
-              placeholder="Select location"
             />
           </Col>
         </Row>
@@ -129,9 +77,9 @@ const EditServicePage = ({ params }: any) => {
         <Row gutter={{ xs: 24, xl: 8, lg: 8, md: 24 }}>
           <Col span={8} style={{ margin: "10px 0" }}>
             <FormTextArea
-              name="description"
-              label="Service Description"
-              placeholder="Service Description"
+              name="content"
+              label="Blog Content"
+              placeholder="Blog Content"
             />
           </Col>
         </Row>
@@ -161,4 +109,4 @@ const EditServicePage = ({ params }: any) => {
   );
 };
 
-export default EditServicePage;
+export default EditBlogsPage;

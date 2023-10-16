@@ -63,7 +63,7 @@ const EditServicePage = ({ params }: any) => {
             path: `/${role}/services`,
           },
           {
-            label: "Create services",
+            label: "Update services",
           },
         ]}
       />

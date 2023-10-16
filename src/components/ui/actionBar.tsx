@@ -15,6 +15,7 @@ const ActionBar = ({ title, children }: AcationBarProps) => {
           alignItems: "center",
           marginBottom: "20px",
           marginTop: "20px",
+          width: "100%",
         }}
       >
         {children}
