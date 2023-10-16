@@ -1,6 +1,5 @@
 "use client";
 
-import Loading from "@/app/loading";
 import FormTextArea from "@/components/forms/FormTextArea.tsx";
 import Form from "@/components/forms/form";
 import FormInput from "@/components/forms/formInput";
@@ -9,50 +8,35 @@ import ServiceCategoreField from "@/components/forms/service-catagory";
 import SMBreadcrumb from "@/components/ui/Breadcrumb";
 import ImageUpload from "@/components/ui/image-upload";
 import { locationOption } from "@/constants/golobal";
-import {
-  useServicesQuery,
-  useUpdateServicesMutation,
-} from "@/redux/api/serviceApi";
+import { useCreateServicesMutation } from "@/redux/api/serviceApi";
 import { getUserInfo } from "@/services/auth.service";
 import { Avatar, Button, Col, Row, message } from "antd";
 import { useState } from "react";
 
-const EditServicePage = ({ params }: any) => {
-  const id = params.id;
-
+const CreateServicePage = () => {
   const { role } = getUserInfo() as any;
+  const [imageUrl, setImageUrl] = useState(
+    "https://res.cloudinary.com/dhvuyehnq/image/upload/v1697354272/gcu3mnulmato2odnqqvp.png"
+  );
 
-  const { data, isLoading, refetch } = useServicesQuery(id);
-  const service = data?.data;
-
-  const [imageUrl, setImageUrl] = useState(service?.imageLink);
-
-  const [updateServices] = useUpdateServicesMutation();
+  const [createServices] = useCreateServicesMutation();
 
   const onSubmit = async (data: any) => {
     message.loading("Adding Service...");
     try {
       const serviceData = { imageLink: imageUrl, ...data };
-      const res = await updateServices({ body: serviceData, id }).unwrap();
+      const res = await createServices(serviceData).unwrap();
       console.log(res);
       if (res?.success) {
-        setImageUrl(imageUrl);
-        message.success("Service Updeting successfully");
-        refetch();
+        setImageUrl(
+          "https://res.cloudinary.com/dhvuyehnq/image/upload/v1697354272/gcu3mnulmato2odnqqvp.png"
+        );
+        message.success("Service added successfully");
       }
     } catch (err: any) {
       message.error(err.message);
     }
   };
-
-  const defaultValues = {
-    title: service?.title,
-    price: service?.price,
-    tax: service?.tax,
-    location: service?.location,
-    description: service?.location,
-  };
-  if (isLoading) <Loading />;
 
   return (
     <div>
@@ -69,7 +53,7 @@ const EditServicePage = ({ params }: any) => {
       />
 
       <h1>Create Services</h1>
-      <Form submitHandler={onSubmit} defaultValues={defaultValues}>
+      <Form submitHandler={onSubmit}>
         <Row gutter={{ xs: 24, xl: 8, lg: 8, md: 24 }}>
           <Col span={8} style={{ margin: "10px 0" }}>
             <FormInput
@@ -155,4 +139,4 @@ const EditServicePage = ({ params }: any) => {
   );
 };
 
-export default EditServicePage;
+export default CreateServicePage;

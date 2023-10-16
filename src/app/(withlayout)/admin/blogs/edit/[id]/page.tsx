@@ -21,11 +21,13 @@ const EditServicePage = ({ params }: any) => {
   const id = params.id;
 
   const { role } = getUserInfo() as any;
+  const [imageUrl, setImageUrl] = useState(
+    "https://res.cloudinary.com/dhvuyehnq/image/upload/v1697354272/gcu3mnulmato2odnqqvp.png"
+  );
 
   const { data, isLoading, refetch } = useServicesQuery(id);
-  const service = data?.data;
 
-  const [imageUrl, setImageUrl] = useState(service?.imageLink);
+  const service = data?.data;
 
   const [updateServices] = useUpdateServicesMutation();
 
@@ -33,11 +35,14 @@ const EditServicePage = ({ params }: any) => {
     message.loading("Adding Service...");
     try {
       const serviceData = { imageLink: imageUrl, ...data };
+      console.log(serviceData);
       const res = await updateServices({ body: serviceData, id }).unwrap();
       console.log(res);
       if (res?.success) {
-        setImageUrl(imageUrl);
-        message.success("Service Updeting successfully");
+        setImageUrl(
+          "https://res.cloudinary.com/dhvuyehnq/image/upload/v1697354272/gcu3mnulmato2odnqqvp.png"
+        );
+        message.success("Service added successfully");
         refetch();
       }
     } catch (err: any) {
@@ -51,6 +56,7 @@ const EditServicePage = ({ params }: any) => {
     tax: service?.tax,
     location: service?.location,
     description: service?.location,
+    imageLink: service?.imageLink,
   };
   if (isLoading) <Loading />;
 
