@@ -1,5 +1,5 @@
-import { tagTypes } from "../tag-types.ts.js";
-import { baseApi } from "./baseApi.js";
+import { tagTypes } from "../tag-types.ts";
+import { baseApi } from "./baseApi";
 
 const FAQS_URL = "/faqs";
 
