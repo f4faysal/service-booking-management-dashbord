@@ -1,39 +1,42 @@
+"use client";
 import { Modal } from "antd";
 import React from "react";
 
 interface ReusableModalProps {
-  visible: boolean;
   title: string;
-  content: React.ReactNode;
-  onOk: () => void;
-  onCancel: () => void;
-  okText: string;
-  cancelText: string;
+  children: React.ReactNode;
+  handleCancel: () => boolean | void;
+  handleOk: () => boolean | void;
+  isModalOpen: boolean;
 }
 
-const ReusableModal: React.FC<ReusableModalProps> = ({
-  visible,
+const ViewModal: React.FC<ReusableModalProps> = ({
   title,
-  content,
-  onOk,
-  onCancel,
-  okText,
-  cancelText,
+  children,
+  handleCancel,
+  handleOk,
+  isModalOpen,
 }) => {
   return (
     <>
       <Modal
         title={title}
-        open={visible}
-        onOk={onOk}
-        onCancel={onCancel}
-        okText={okText}
-        cancelText={cancelText}
+        open={isModalOpen}
+        onOk={handleOk}
+        onCancel={handleCancel}
       >
-        {content}
+        <p
+          style={{
+            fontSize: "16px",
+
+            color: "#000000",
+          }}
+        >
+          {children}
+        </p>
       </Modal>
     </>
   );
 };
 
-export default ReusableModal;
+export default ViewModal;

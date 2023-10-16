@@ -1,7 +1,7 @@
-import { tagTypes } from "../tag-types.ts.js";
-import { baseApi } from "./baseApi.js";
+import { tagTypes } from "../tag-types.ts";
+import { baseApi } from "./baseApi";
 
-const FEEDBACK_URL = "/feedbacks";
+const FEEDBACK_URL = "/feedback";
 
 const feedbackApi = baseApi.injectEndpoints({
   endpoints: (build) => ({

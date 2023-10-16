@@ -64,7 +64,7 @@ export const sidebarItems = (role: string) => {
       icon: <AppstoreOutlined />,
       children: [
         {
-          label: <Link href={`/${role}/customers`}>Customers</Link>,
+          label: <Link href={`/${role}/feedback`}>Feedback</Link>,
           key: `/${role}/customers`,
         },
         {
@@ -74,7 +74,7 @@ export const sidebarItems = (role: string) => {
       ],
     },
     {
-      label: "Service ManagementT",
+      label: "Service Management",
       key: "service-management",
       icon: <AppstoreOutlined />,
       children: [
