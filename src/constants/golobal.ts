@@ -5,6 +5,13 @@ export const roleOptions = role.map((role: string) => {
     value: role,
   };
 });
+export const status = ["pending", "accepted", "rejected"];
+export const statusOptions = status.map((role: string) => {
+  return {
+    label: role,
+    value: role,
+  };
+});
 
 export const location = [
   "Mirpur",

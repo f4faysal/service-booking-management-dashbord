@@ -33,12 +33,14 @@ const ProfilePage = () => {
             <Badge.Ribbon color="magenta" text={data?.data?.role}>
               <Card title="Profile" loading={isLoading}>
                 <Avatar
-                  size={100}
+                  size={150}
                   icon={<UserOutlined />}
                   style={{
                     marginBottom: "1rem",
                   }}
+                  src={data?.data?.profileImg}
                 />
+
                 <h1
                   style={{
                     fontSize: "1.5rem",

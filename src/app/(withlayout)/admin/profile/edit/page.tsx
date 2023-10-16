@@ -4,10 +4,12 @@ import Form from "@/components/forms/form";
 import FormInput from "@/components/forms/formInput";
 import SMBreadcrumb from "@/components/ui/Breadcrumb";
 import ActionBar from "@/components/ui/actionBar";
+import ImageUpload from "@/components/ui/image-upload";
 import { useProfileQuery, useUpdateProfileMutation } from "@/redux/api/user";
 import { getUserInfo } from "@/services/auth.service";
-import { Button, Col, Row, message } from "antd";
+import { Avatar, Button, Col, Row, message } from "antd";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 const EditProfile = () => {
   const { role } = getUserInfo() as any;
@@ -17,14 +19,17 @@ const EditProfile = () => {
 
   const { data, isLoading } = useProfileQuery({});
   const user = data?.data;
-
+  const [imageUrl, setImageUrl] = useState(user?.profileImg);
   const onSubmit = async (values: { title: string }) => {
-    message.loading("Updating department...");
+    message.loading("Updating User...");
     try {
-      const res = await updateProfile(values).unwrap();
+      const res = await updateProfile({
+        profileImg: imageUrl,
+        ...values,
+      }).unwrap();
       if (res?.success) {
         message.success("Profile updated successfully");
-
+        setImageUrl(user?.profileImg);
         router.push(`/${role}/profile`);
       }
     } catch (err: any) {
@@ -77,6 +82,22 @@ const EditProfile = () => {
                 size="large"
                 placeholder="address"
               />
+            </Col>
+          </Row>
+          <Row gutter={{ xs: 24, xl: 8, lg: 8, md: 24 }}>
+            <Col
+              span={8}
+              style={{
+                margin: "10px 0",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "start",
+                gap: "10px",
+              }}
+            >
+              <Avatar shape="square" size={200} src={imageUrl} />
+              <ImageUpload setImageUrl={setImageUrl} imageUrl={imageUrl} />
             </Col>
           </Row>
 

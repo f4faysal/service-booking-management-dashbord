@@ -3,26 +3,23 @@
 import SMBreadcrumb from "@/components/ui/Breadcrumb";
 import SBTable from "@/components/ui/SBTable";
 import ActionBar from "@/components/ui/actionBar";
-import {
-  useDeleteServicesMutation,
-  useServicessQuery,
-} from "@/redux/api/serviceApi";
+import { useDeleteProfileMutation, useUsersListQuery } from "@/redux/api/user";
 import { useDebounced } from "@/redux/hooks";
 import { getUserInfo } from "@/services/auth.service";
 import {
   DeleteOutlined,
-  EditOutlined,
   ReloadOutlined,
+  UserAddOutlined,
 } from "@ant-design/icons";
 import { Avatar, Button, Input, message } from "antd";
 import dayjs from "dayjs";
-import Link from "next/link";
 import { useState } from "react";
 
-const ServicesPage = () => {
+const AdminPage = () => {
   const { role } = getUserInfo() as any;
 
-  const [deleteServices] = useDeleteServicesMutation();
+  const [deleteProfile] = useDeleteProfileMutation();
+
   const query: Record<string, any> = {};
 
   const [sige, setSige] = useState<number>(10);
@@ -36,6 +33,7 @@ const ServicesPage = () => {
   query["sortBy"] = sortBy;
   query["sortOrder"] = sortOrder;
   query["search"] = searchTerm;
+  query["role"] = "user";
 
   const debouncedTerm = useDebounced({
     searchQuery: searchTerm,
@@ -43,21 +41,22 @@ const ServicesPage = () => {
   });
 
   if (!!debouncedTerm) {
-    query["search"] = debouncedTerm;
+    query["searchTerm"] = debouncedTerm;
   }
 
-  const { data, isLoading, refetch } = useServicessQuery({ ...query });
+  const { data, isLoading } = useUsersListQuery({ ...query });
 
-  const services = data?.services;
+  const userList = data?.userlist;
   const meta = data?.meta;
 
   const deleteHandler = async (id: { id: string }) => {
-    message.loading("Service department...");
+    message.loading("Deleting department...");
     try {
-      const res = await deleteServices(id).unwrap();
+      const res = await deleteProfile(id).unwrap();
       if (res?.success) {
-        message.success("Service deleted successfully");
+        message.success("Department deleted successfully");
       }
+      console.log(res);
     } catch (err: any) {
       message.error(err.message);
     }
@@ -65,40 +64,27 @@ const ServicesPage = () => {
 
   const columns = [
     {
-      title: "Picture",
+      title: "Profile Picture",
       render: function (data: any) {
         // return <img src={data?.profilePicture} alt="profile" width="50px" height="50px" />
-        return <Avatar shape="square" size={50} src={data?.imageLink} />;
+        return <Avatar icon={<UserAddOutlined />} />;
       },
     },
     {
-      title: "Title",
-      dataIndex: "title",
+      title: "Name",
+      dataIndex: "name",
     },
     {
-      title: "Location",
-      dataIndex: "location",
+      title: "Email",
+      dataIndex: "email",
     },
     {
-      title: "Category",
-      render: function (data: any) {
-        return {
-          children: data?.category?.title,
-          props: {
-            colSpan: 1,
-          },
-        };
-      },
+      title: "Role",
+      dataIndex: "role",
     },
     {
-      title: "Tax",
-      dataIndex: "tax",
-      sorter: true,
-    },
-    {
-      title: "Price",
-      dataIndex: "price",
-      sorter: true,
+      title: "Contact No",
+      dataIndex: "contactNumber",
     },
     {
       title: "Created At",
@@ -120,11 +106,12 @@ const ServicesPage = () => {
               width: "150px",
             }}
           >
-            <Link href={`/${role}/services/edit/${data.id}`}>
+            {/* <Link href={`/super_admin/user/edit/${data.id}`}>
               <Button onClick={() => console.log(data)} type="primary">
                 <EditOutlined />
               </Button>
-            </Link>
+            </Link> */}
+
             <Button onClick={() => deleteHandler(data?.id)} danger>
               <DeleteOutlined />
             </Button>
@@ -160,14 +147,12 @@ const ServicesPage = () => {
       <SMBreadcrumb
         items={[
           {
-            label: "Manage Services",
-
-            path: "/admin/services",
+            label: "Manage Admin",
           },
         ]}
       />
 
-      <ActionBar title="Manage Services">
+      <ActionBar title="Manage User">
         <Input
           type="text"
           size="large"
@@ -181,9 +166,9 @@ const ServicesPage = () => {
           }}
         />
         <div>
-          <Link href={`/${role}/services/create`}>
+          {/* <Link href="/super_admin/admin/create">
             <Button type="primary">Create</Button>
-          </Link>
+          </Link> */}
           {(!!sortBy || !!sortOrder || searchTerm) && (
             <Button
               onClick={resetFilter}
@@ -200,7 +185,7 @@ const ServicesPage = () => {
       <SBTable
         loading={isLoading}
         columns={columns}
-        dataSource={services}
+        dataSource={userList}
         pageSize={sige}
         totalPages={meta?.total}
         showSizeChanger={true}
@@ -212,4 +197,4 @@ const ServicesPage = () => {
   );
 };
 
-export default ServicesPage;
+export default AdminPage;
