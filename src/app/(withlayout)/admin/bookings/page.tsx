@@ -88,16 +88,28 @@ const BookingPage = () => {
       title: "Booking Schedule",
       render: function (data: any) {
         return (
-          data &&
-          `${dayjs(data?.startTime).format("hh:mm A")} to ${dayjs(
-            data?.endTime
-          ).format("hh:mm A")}`
+          <p>
+            {data?.date}&nbsp;
+            <span
+              style={{
+                color: "red",
+                fontWeight: "bold",
+              }}
+            >
+              {data?.startTime}
+            </span>
+            &nbsp; To&nbsp;
+            <span
+              style={{
+                color: "red",
+                fontWeight: "bold",
+              }}
+            >
+              {data?.endTime}
+            </span>
+          </p>
         );
       },
-    },
-    {
-      title: "Date",
-      dataIndex: "startTime",
     },
 
     {
