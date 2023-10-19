@@ -1,14 +1,13 @@
 "use client";
-import { Button, Col, Row, message } from "antd";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { SubmitHandler } from "react-hook-form";
-
 import Form from "@/components/forms/form";
 import FormInput from "@/components/forms/formInput";
 import { useUserLoginMutation } from "@/redux/api/authApi";
+import { loginSchema } from "@/schemas/login";
 import { storeUserInfo } from "@/services/auth.service";
-import loginImage from "../../assets/Fingerprint-cuate.png";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { Button, Col, Row, message } from "antd";
+import { useRouter } from "next/navigation";
+import { SubmitHandler } from "react-hook-form";
 
 type FormValues = {
   id: string;
@@ -22,14 +21,16 @@ const LoginPage = () => {
 
   const onSubmit: SubmitHandler<FormValues> = async (data: any) => {
     try {
-      const res = await userLogin({ ...data }).unwrap();
+      const res: any = await userLogin({ ...data });
       console.log(res);
-      // // const { accessToken } = res.data;
-      if (res?.accessToken) {
-        router.push("/dashboard");
+
+      if (res?.data?.accessToken) {
+        router.push("/");
         message.success("User Login Success");
+        storeUserInfo({ accessToken: res?.data?.accessToken });
+      } else {
+        message.error("User Login Fail try again later");
       }
-      storeUserInfo({ accessToken: res?.accessToken });
     } catch (error) {
       console.error(error);
     }
@@ -41,22 +42,38 @@ const LoginPage = () => {
       justify={"center"}
       style={{
         minHeight: "100vh",
+        backgroundColor: "#f8fafc",
       }}
     >
-      <Col sm={12} md={16} lg={10}>
-        <Image src={loginImage} width={500} alt="login" />
-      </Col>
-
-      <Col sm={12} md={8} lg={8}>
-        <h1
+      <Col span={5}>
+        <div
           style={{
-            margin: "15px 0",
+            padding: "80px 20px 40px 20px",
+            borderRadius: "10px",
+            backgroundColor: "white",
+            boxShadow: "0 0 10px rgba(0,0,0,0.1)",
+            position: "relative",
           }}
         >
-          Frist login your accunt
-        </h1>
-        <div>
-          <Form submitHandler={onSubmit}>
+          <div
+            style={{
+              height: "120px",
+              borderRadius: "20px",
+              width: "90%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              position: "absolute",
+              top: "-70px",
+              backgroundColor: "black",
+              color: "white",
+              padding: "0 10px",
+            }}
+          >
+            <h1 style={{ fontSize: "2.5rem" }}>Sign In</h1>
+          </div>
+
+          <Form submitHandler={onSubmit} resolver={yupResolver(loginSchema)}>
             <>
               <div>
                 <FormInput
@@ -80,9 +97,35 @@ const LoginPage = () => {
                   label="User Password"
                 />
               </div>
-              <Button type="primary" htmlType="submit">
+              <Button
+                style={{
+                  width: "100%",
+                  margin: "15px 0",
+                }}
+                type="primary"
+                htmlType="submit"
+              >
                 Login
               </Button>
+
+              {/* <p
+                style={{
+                  textAlign: "center",
+                  marginTop: "10px",
+                }}
+              >
+                Don`t have an account? &nbsp;
+                <Link
+                  style={{
+                    color: "black",
+                    fontWeight: "bold",
+                    fontSize: "15px",
+                  }}
+                  href="/register"
+                >
+                  Sign up
+                </Link>
+              </p> */}
             </>
           </Form>
         </div>
