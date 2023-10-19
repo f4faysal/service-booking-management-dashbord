@@ -1,4 +1,6 @@
+"use client";
 import { authKey } from "@/constants/storageKey";
+import { useProfileQuery } from "@/redux/api/user";
 import { getUserInfo, removeUserInfo } from "@/services/auth.service";
 import { UserOutlined } from "@ant-design/icons";
 import { Avatar, Button, Dropdown, Layout, MenuProps, Row, Space } from "antd";
@@ -24,6 +26,8 @@ const Header = () => {
     },
   ];
   const { role } = getUserInfo() as any;
+  const { data } = useProfileQuery({});
+
   return (
     <AntHeader
       style={{
@@ -42,12 +46,18 @@ const Header = () => {
             margin: "0px 5px",
           }}
         >
-          {role}
+          <b>
+            {data?.data?.name} <small>({role})</small>
+          </b>
         </p>
         <Dropdown menu={{ items }}>
           <a>
             <Space wrap size={16}>
-              <Avatar size="large" icon={<UserOutlined />} />
+              <Avatar
+                size="large"
+                src={data?.data?.profileImg}
+                icon={<UserOutlined />}
+              />
             </Space>
           </a>
         </Dropdown>

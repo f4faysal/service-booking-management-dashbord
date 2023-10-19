@@ -21,6 +21,7 @@ const SideBar = () => {
         overflow: "auto",
         height: "100vh",
         position: "sticky",
+
         top: 0,
         left: 0,
         bottom: 0,
@@ -32,10 +33,10 @@ const SideBar = () => {
           fontSize: "1.5rem",
           textAlign: "center",
           fontWeight: "bold",
-          margin: "2rem",
+          margin: "2rem 0",
         }}
       >
-        Dashbord
+        Motel
       </div>
       <Menu
         theme="dark"

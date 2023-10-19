@@ -2,9 +2,15 @@ import type { MenuProps } from "antd";
 import Link from "next/link";
 
 import {
-  AppstoreOutlined,
-  ProfileOutlined,
+  ChromeOutlined,
+  ClockCircleOutlined,
+  SlidersOutlined,
   TableOutlined,
+  UserAddOutlined,
+  UserDeleteOutlined,
+  UserOutlined,
+  UserSwitchOutlined,
+  WarningOutlined,
 } from "@ant-design/icons";
 import { USER_ROLE } from "./role";
 
@@ -18,7 +24,7 @@ export const sidebarItems = (role: string) => {
     {
       label: "Profile",
       key: "profile",
-      icon: <ProfileOutlined />,
+      icon: <UserOutlined />,
       children: [
         {
           label: <Link href={`/${role}/profile`}>Profile</Link>,
@@ -45,7 +51,7 @@ export const sidebarItems = (role: string) => {
     {
       label: "Service Management",
       key: "service-management",
-      icon: <AppstoreOutlined />,
+      icon: <SlidersOutlined />,
       children: [
         {
           label: <Link href={`/${role}/categories`}>Categories</Link>,
@@ -61,7 +67,7 @@ export const sidebarItems = (role: string) => {
     {
       label: "Booking Management",
       key: "booking-management",
-      icon: <TableOutlined />,
+      icon: <ClockCircleOutlined />,
       children: [
         {
           label: <Link href={`/${role}/bookings`}>Bookings</Link>,
@@ -77,7 +83,7 @@ export const sidebarItems = (role: string) => {
     {
       label: "Website Settings",
       key: "website-settings",
-      icon: <AppstoreOutlined />,
+      icon: <ChromeOutlined />,
       children: [
         {
           label: <Link href={`/${role}/blogs`}>Blogs</Link>,
@@ -93,7 +99,7 @@ export const sidebarItems = (role: string) => {
     {
       label: "Users & Role Management",
       key: "users-role-management",
-      icon: <AppstoreOutlined />,
+      icon: <UserDeleteOutlined />,
       children: [
         // {
         //   label: <Link href={`/${role}/roles`}>Roles</Link>,
@@ -115,18 +121,18 @@ export const sidebarItems = (role: string) => {
     ...defaultSidebarItems,
     {
       label: <Link href={`/${role}/admin`}>Manage Admin</Link>,
-      icon: <TableOutlined />,
+      icon: <UserSwitchOutlined />,
       key: `/${role}/admin`,
     },
     {
       label: <Link href={`/${role}/user`}>Manage User</Link>,
-      icon: <TableOutlined />,
+      icon: <UserAddOutlined />,
       key: `/${role}/user`,
     },
     {
       label: "Manage permission",
       key: "manage-permission",
-      icon: <AppstoreOutlined />,
+      icon: <WarningOutlined />,
       children: [
         {
           label: <Link href={`/${role}/permission`}>View permissions</Link>,
