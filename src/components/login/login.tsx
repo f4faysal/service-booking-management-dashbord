@@ -63,13 +63,16 @@ const LoginPage = () => {
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
+              flexDirection: "column",
               position: "absolute",
               top: "-70px",
-              backgroundColor: "black",
+              backgroundColor: "green",
               color: "white",
               padding: "0 10px",
             }}
           >
+            <small>Admin</small>
+
             <h1 style={{ fontSize: "2.5rem" }}>Sign In</h1>
           </div>
 

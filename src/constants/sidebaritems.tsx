@@ -42,6 +42,21 @@ export const sidebarItems = (role: string) => {
 
   const adminSidebarItems: MenuProps["items"] = [
     ...defaultSidebarItems,
+    {
+      label: "Service Management",
+      key: "service-management",
+      icon: <AppstoreOutlined />,
+      children: [
+        {
+          label: <Link href={`/${role}/categories`}>Categories</Link>,
+          key: `/${role}/categories`,
+        },
+        {
+          label: <Link href={`/${role}/services`}>Services</Link>,
+          key: `/${role}/services`,
+        },
+      ],
+    },
 
     {
       label: "Booking Management",
@@ -58,36 +73,7 @@ export const sidebarItems = (role: string) => {
         },
       ],
     },
-    {
-      label: "Business Management",
-      key: "business-management",
-      icon: <AppstoreOutlined />,
-      children: [
-        {
-          label: <Link href={`/${role}/feedback`}>Feedback</Link>,
-          key: `/${role}/customers`,
-        },
-        {
-          label: <Link href={`/${role}/working-hours`}>Working Hours</Link>,
-          key: `/${role}/working-hours`,
-        },
-      ],
-    },
-    {
-      label: "Service Management",
-      key: "service-management",
-      icon: <AppstoreOutlined />,
-      children: [
-        {
-          label: <Link href={`/${role}/categories`}>Categories</Link>,
-          key: `/${role}/categories`,
-        },
-        {
-          label: <Link href={`/${role}/services`}>Services</Link>,
-          key: `/${role}/services`,
-        },
-      ],
-    },
+
     {
       label: "Website Settings",
       key: "website-settings",
@@ -103,14 +89,19 @@ export const sidebarItems = (role: string) => {
         },
       ],
     },
+
     {
       label: "Users & Role Management",
       key: "users-role-management",
       icon: <AppstoreOutlined />,
       children: [
+        // {
+        //   label: <Link href={`/${role}/roles`}>Roles</Link>,
+        //   key: `/${role}/roles`,
+        // },
         {
-          label: <Link href={`/${role}/roles`}>Roles</Link>,
-          key: `/${role}/roles`,
+          label: <Link href={`/${role}/feedback`}>Feedback</Link>,
+          key: `/${role}/customers`,
         },
         {
           label: <Link href={`/${role}/user`}>User</Link>,
