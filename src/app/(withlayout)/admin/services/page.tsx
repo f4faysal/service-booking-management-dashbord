@@ -52,7 +52,7 @@ const ServicesPage = () => {
   const meta = data?.meta;
 
   const deleteHandler = async (id: { id: string }) => {
-    message.loading("Service department...");
+    message.loading("Service deleted...");
     try {
       const res = await deleteServices(id).unwrap();
       if (res?.success) {

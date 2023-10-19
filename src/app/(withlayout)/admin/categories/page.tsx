@@ -57,9 +57,9 @@ const CategoriesPage = () => {
   const deleteHandler = async (id: { id: string }) => {
     const res = await deleteCategorie(id).unwrap();
     console.log(res);
-    message.loading("Deleting department...");
+    message.loading("Deleting Categorie...");
     try {
-      message.success("Department deleted successfully");
+      message.success("Categorie deleted successfully");
     } catch (err: any) {
       message.error(err.message);
     }

@@ -8,7 +8,6 @@ import { useDebounced } from "@/redux/hooks";
 import { getUserInfo } from "@/services/auth.service";
 import {
   DeleteOutlined,
-  EditOutlined,
   ReloadOutlined,
   UserAddOutlined,
 } from "@ant-design/icons";
@@ -53,9 +52,9 @@ const AdminPage = () => {
   const deleteHandler = async (id: { id: string }) => {
     console.log(id);
 
-    message.loading("Deleting department...");
+    message.loading("Deleting ...");
     try {
-      message.success("Department deleted successfully");
+      message.success(" deleted successfully");
     } catch (err: any) {
       message.error(err.message);
     }
@@ -66,7 +65,9 @@ const AdminPage = () => {
       title: "Profile Picture",
       render: function (data: any) {
         // return <img src={data?.profilePicture} alt="profile" width="50px" height="50px" />
-        return <Avatar icon={<UserAddOutlined />} />;
+        return (
+          <Avatar size={40} src={data?.profileImg} icon={<UserAddOutlined />} />
+        );
       },
     },
     {
@@ -97,19 +98,12 @@ const AdminPage = () => {
       title: "Action",
       render: function (data: any) {
         return (
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-around",
-              alignItems: "center",
-              width: "150px",
-            }}
-          >
-            <Link href={`/super_admin/department/edit/${data._id}`}>
+          <div>
+            {/* <Link href={`/super_admin/department/edit/${data._id}`}>
               <Button onClick={() => console.log(data)} type="primary">
                 <EditOutlined />
               </Button>
-            </Link>
+            </Link> */}
             <Button onClick={() => deleteHandler(data?.id)} danger>
               <DeleteOutlined />
             </Button>

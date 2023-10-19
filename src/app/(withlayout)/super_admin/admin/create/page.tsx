@@ -4,7 +4,9 @@ import Form from "@/components/forms/form";
 import FormInput from "@/components/forms/formInput";
 import SMBreadcrumb from "@/components/ui/Breadcrumb";
 import { useCreatAdminMutation } from "@/redux/api/authApi";
+import { registerSchema } from "@/schemas/regiser";
 import { getUserInfo } from "@/services/auth.service";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { Button, Col, Row, message } from "antd";
 
 const CreateAdminPage = () => {
@@ -15,11 +17,11 @@ const CreateAdminPage = () => {
   const [creatAdmin] = useCreatAdminMutation();
 
   const onSubmit = async (data: any) => {
-    message.loading("Adding department...");
+    message.loading("Adding...");
     try {
-      const res = await creatAdmin(data);
+      const res = await creatAdmin({ profileImg: "", ...data });
       console.log(res);
-      message.success("Department added successfully");
+      message.success("Admin added successfully");
     } catch (err: any) {
       console.error(err.message);
       message.error(err.message);
@@ -41,7 +43,7 @@ const CreateAdminPage = () => {
       />
 
       <h1>Create Admin</h1>
-      <Form submitHandler={onSubmit}>
+      <Form submitHandler={onSubmit} resolver={yupResolver(registerSchema)}>
         <Row gutter={{ xs: 24, xl: 8, lg: 8, md: 24 }}>
           <Col span={8} style={{ margin: "10px 0" }}>
             <FormInput
@@ -95,16 +97,7 @@ const CreateAdminPage = () => {
             />
           </Col>
         </Row>
-        <Row gutter={{ xs: 24, xl: 8, lg: 8, md: 24 }}>
-          <Col span={8} style={{ margin: "10px 0" }}>
-            <FormInput
-              name="profileImg"
-              label="Link"
-              placeholder="Profile Img link"
-              size="large"
-            />
-          </Col>
-        </Row>
+
         <Button type="primary" htmlType="submit">
           add
         </Button>

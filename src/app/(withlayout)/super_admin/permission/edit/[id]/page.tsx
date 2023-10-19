@@ -26,7 +26,7 @@ const EditAdminRole = ({ params }: IDPorps) => {
     try {
       const res = await updateRoleBySuperAdmin({ id, body: values }).unwrap();
       if (res?.success) {
-        message.success("Department updated successfully");
+        message.success("Role updated successfully");
       }
     } catch (err: any) {
       console.error(err.message);

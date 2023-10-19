@@ -21,7 +21,7 @@ const CreateCategoriePage = () => {
   // const [creatAdmin] = useCreatAdminMutation();
 
   const onSubmit = async (data: any) => {
-    message.loading("Adding department...");
+    message.loading("Adding Categorie...");
     try {
       const catagoriData = { imageLink: imageUrl, ...data };
       const res = await createCategorie(catagoriData).unwrap();
@@ -30,7 +30,7 @@ const CreateCategoriePage = () => {
         setImageUrl(
           "https://res.cloudinary.com/dhvuyehnq/image/upload/v1697354272/gcu3mnulmato2odnqqvp.png"
         );
-        message.success("Department added successfully");
+        message.success("Categorie added successfully");
       }
     } catch (err: any) {
       console.error(err.message);

@@ -57,9 +57,9 @@ const AdminPage = () => {
   const meta = data?.meta;
 
   const deleteHandler = async (id: { id: string }) => {
-    message.loading("Deleting department...");
+    message.loading("Deleting...");
     try {
-      message.success("Department deleted successfully");
+      message.success("deleted successfully");
     } catch (err: any) {
       message.error(err.message);
     }
@@ -70,7 +70,7 @@ const AdminPage = () => {
       title: "Profile Picture",
       render: function (data: any) {
         // return <img src={data?.profilePicture} alt="profile" width="50px" height="50px" />
-        return <Avatar icon={<UserAddOutlined />} />;
+        return <Avatar src={data?.profileImg} icon={<UserAddOutlined />} />;
       },
     },
     {
