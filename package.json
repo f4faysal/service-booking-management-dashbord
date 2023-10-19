@@ -1,5 +1,5 @@
 {
-  "name": "university-management-frontend",
+  "name": "motal-service-management-deshboard",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -8,6 +8,8 @@
     "start": "next start",
     "lint": "next lint"
   },
+  "author": "Md Faysal Hossain",
+  "license": "ISC",
   "dependencies": {
     "@ant-design/cssinjs": "^1.17.0",
     "@reduxjs/toolkit": "^1.9.5",

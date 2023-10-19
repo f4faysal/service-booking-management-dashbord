@@ -82,6 +82,13 @@ const FeedbacePage = () => {
       dataIndex: "email",
     },
     {
+      title: "Comments",
+      dataIndex: "comment",
+      render: function (data: any) {
+        return data?.slice(0, 40) + " ...";
+      },
+    },
+    {
       title: "Feedmack Massage",
       dataIndex: "message",
       render: function (data: any) {
@@ -120,9 +127,16 @@ const FeedbacePage = () => {
               handleCancel={handleCancel}
               handleOk={handleOk}
               isModalOpen={isModalOpen}
-              title="Feedback Massage"
+              title={data?.name}
             >
-              {data?.message}
+              <p>
+                <b>Comments</b>
+              </p>
+              <p>{data?.comment}</p>
+              <p>
+                <b>Massage</b>
+              </p>
+              <small>{data?.message}</small>
             </ViewModal>
             <Button onClick={() => deleteHandler(data?.id)} danger>
               <DeleteOutlined />
