@@ -3,7 +3,7 @@
 import SMBreadcrumb from "@/components/ui/Breadcrumb";
 import SBTable from "@/components/ui/SBTable";
 import ActionBar from "@/components/ui/actionBar";
-import { useUsersListQuery } from "@/redux/api/user";
+import { useDeleteProfileMutation, useUsersListQuery } from "@/redux/api/user";
 import { useDebounced } from "@/redux/hooks";
 import { getUserInfo } from "@/services/auth.service";
 import {
@@ -18,6 +18,8 @@ import { useState } from "react";
 
 const AdminPage = () => {
   const { role } = getUserInfo() as any;
+
+  const [deleteProfile] = useDeleteProfileMutation();
 
   const query: Record<string, any> = {};
 
@@ -50,16 +52,17 @@ const AdminPage = () => {
   const meta = data?.meta;
 
   const deleteHandler = async (id: { id: string }) => {
-    console.log(id);
-
-    message.loading("Deleting ...");
+    message.loading("Deleting Admin...");
     try {
-      message.success(" deleted successfully");
+      const res = await deleteProfile(id).unwrap();
+      if (res?.success) {
+        message.success("Admin deleted successfully");
+      }
+      console.log(res);
     } catch (err: any) {
       message.error(err.message);
     }
   };
-
   const columns = [
     {
       title: "Profile Picture",

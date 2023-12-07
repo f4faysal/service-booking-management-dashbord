@@ -111,6 +111,29 @@ const LoginPage = () => {
                 Login
               </Button>
 
+              <div>
+                <p>Admin</p>
+                <p>
+                  email :{" "}
+                  <span
+                    style={{
+                      color: "green",
+                    }}
+                  >
+                    admin@gmail.com
+                  </span>
+                </p>
+                <p>
+                  password :{" "}
+                  <span
+                    style={{
+                      color: "green",
+                    }}
+                  >
+                    123456Aa
+                  </span>
+                </p>
+              </div>
               {/* <p
                 style={{
                   textAlign: "center",
